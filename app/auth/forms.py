@@ -20,8 +20,6 @@ class RegistrationForm(FlaskForm):
         if User.query.filter_by(username = data_field.data).first():
             raise ValidationError('That username is taken')
 
-    
-    
 
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired("Please enter your email address.")])
