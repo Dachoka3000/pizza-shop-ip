@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='pizz.jpg')}}">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700i" rel="stylesheet">
+
+    {% endblock %}
+
+{% block content %} 
+<div class="card card-image" style="background-image:  url('../static/image/pizz.jpg');   background-size: 100% 100%; ">
+
+
+
+  
+  <div class="text-white text-center d-flex align-items-center rgba-black-strong py-5 px-4">
+    <div>
+      <h1 style="font-size:100px;font-family: 'Montserrat', sans-serif;">PIZZA WORLD</h1>
+      <h3 class="card-title pt-2"><strong>Where the flavor inebriates you.</strong></h3>
+     
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+
+{% endblock%} 

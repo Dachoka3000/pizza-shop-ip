@@ -71,6 +71,15 @@ class Order(db.Model):
     price = db.Column(db.Integer)
     checkouts = db.relationship("Checkout", backref="order", lazy="dynamic")
 
+    def save_order(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_orders(cls,id):
+        order = Order.query.filter_by(flavour_id = id).all()
+        return order
+
     def __repr__(self):
         return f"Order {self.price}"
 
