@@ -11,6 +11,12 @@ def index():
 
     return render_template("index.html")
 
+@main.route('/add')
+def add():
+    title = 'pizza details'
+
+    return render_template("pizza_details.html")
+
 
 @main.route('/add/flavour', methods=["GET", "POST"])
 def newFlavour():
@@ -18,7 +24,7 @@ def newFlavour():
     
     
     if flavour_form.validate_on_submit():
-        flavour = Flavour(pizza_flavour=flavour_form.flavour123.data)
+        flavour = Flavour(pizza_flavour=flavour_form.pizza_flavour.data)
         db.session.add(flavour)
         db.session.commit()
 

@@ -3,7 +3,7 @@ from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import Required
 
 class FlavourForm(FlaskForm):
-    flavour123 = StringField('Pizza flavour')
+    pizza_flavour = StringField('Pizza flavour')
     submit = SubmitField('Submit')
     
 class SizeForm(FlaskForm):
