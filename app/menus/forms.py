@@ -1,11 +1,22 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, TextAreaField,SubmitField
-from wtforms.validators import Required
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from wtforms import IntegerField, SubmitField
+from wtforms.validators import InputRequired
 from ..models import Flavour,Size,Topping,Order
+from .. import db
+
+def flavour_query():
+    return Flavour.query
+
+def size_query():
+    return Size.query
+
+def topping_query():
+    return Topping.query
 
 class OrderForm(FlaskForm):
-    size = StringField('Enter pizza size', validators=[Required])
-    flavour = StringField('Enter flavour', validators=[Required])
-    toppings = TextAreaField('Enter toppings', validators=[Required])
-    quantity = IntegerField('quantity',validators=[Required])
+    size = QuerySelectField(query_factory=size_query, allow_blank = True)
+    flavour = QuerySelectField(query_factory=flavour_query, allow_blank=True)
+    toppings = QuerySelectField(query_factory=topping_query, allow_blank=True)
+    quantity = IntegerField('quantity',validators=[InputRequired()])
     submit = SubmitField('Submit')

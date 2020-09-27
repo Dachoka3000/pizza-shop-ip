@@ -4,8 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import config_options
 
-from .main import main as main_blueprint
-from .auth import auth as auth_blueprint
+
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -19,9 +18,13 @@ def create_app(config_name):
     bootstrap.init_app(app)
     db.init_app(app)
 
+    from .main import main as main_blueprint
+    from .auth import auth as auth_blueprint
+    from .menus import orders as orders_blueprint
+
     # Registering blueprint
     app.register_blueprint(main_blueprint)
-    app.register_blueprint(auth_blueprint, url_prefix='/authenticate')
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
     app.register_blueprint(orders_blueprint, url_prefix='/cart')
 
     return app
