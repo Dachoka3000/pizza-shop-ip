@@ -1,0 +1,4 @@
+Hey customer!
+Thanks for shopping at Pizza World. We have received the following order from you:
+{{new_order.size}} pizza of {{new_order.flavour}} and with{{new_order.topping}}
+Total charge is {{new_order.price}} for {{new_order.quantity}} pizzas

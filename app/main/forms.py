@@ -1,9 +1,8 @@
 from flask_wtf import FlaskForm
-<<<<<<< HEAD
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms import IntegerField, SubmitField
+from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import InputRequired
-from ..models import Flavour,Size,Topping,Order
+from ..models import Flavour,Size,Topping,Order,Checkout
 from .. import db
 
 def flavour_query():
@@ -20,9 +19,14 @@ class OrderForm(FlaskForm):
     flavour = QuerySelectField(query_factory=flavour_query, allow_blank=True)
     toppings = QuerySelectField(query_factory=topping_query, allow_blank=True)
     quantity = IntegerField('quantity',validators=[InputRequired()])
-=======
-from wtforms import StringField, IntegerField, SubmitField
-from wtforms.validators import Required
+    email = StringField("Enter your email", validators=[InputRequired()])
+    submit = SubmitField("Submit")
+
+class CheckoutForm(FlaskForm):
+    email = StringField("Enter your email", validators=[InputRequired()])
+    submit = SubmitField('Submit')
+
+
 
 class FlavourForm(FlaskForm):
     pizza_flavour = StringField('Pizza flavour')
@@ -36,5 +40,4 @@ class SizeForm(FlaskForm):
 class ToppingForm(FlaskForm):
     pizza_topping = StringField('Pizza topping')
     pizza_topping_price = IntegerField('Topping price') #remember to convert to integer
->>>>>>> 0a3637f44cd3c63c5e6ae94705cf6176f2f184ff
     submit = SubmitField('Submit')

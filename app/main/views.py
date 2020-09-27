@@ -1,51 +1,66 @@
-<<<<<<< HEAD
+
 from flask import render_template, flash, session,request, redirect, url_for
 from . import main
 from .forms import OrderForm
 from ..models import Order, Checkout, Flavour, Topping, Size
 from .. import db
-=======
-from flask import render_template, redirect, url_for
-from . import main
 from .forms import FlavourForm, SizeForm, ToppingForm
-from .. import db
-from ..models import Flavour, Size, Topping
->>>>>>> 0a3637f44cd3c63c5e6ae94705cf6176f2f184ff
-
+from ..email import mail_message
+# from sqlalchemy import desc
 
 @main.route('/')
 def index():
-<<<<<<< HEAD
   title = 'pizza'
   
   return render_template("index.html", title=title)
 
 @main.route("/cart/order", methods=["POST","GET"])
 def new_order():
-    form = OrderForm()
+  form = OrderForm()
 
-    if form.validate_on_submit():
-        quantity = form.quantity.data 
-        size = form.size.data 
-        flavour = form.flavour.data 
-        topping = form.toppings.data 
-        price = ((int(size.price))+(int(topping.price))*(int(quantity)))
-        new_order=Order(flavour=flavour,size=size,topping=topping,quantity=quantity,price=price)
-        db.session.add(new_order)
-        db.session.commit()
+  if form.validate_on_submit():
+      quantity = form.quantity.data 
+      size = form.size.data 
+      flavour = form.flavour.data 
+      topping = form.toppings.data 
+      price = ((int(size.price))+(int(topping.price)))*(int(quantity))
+      new_order=Order(flavour=flavour,size=size,topping=topping,quantity=quantity,price=price)
+
+      db.session.add(new_order)
+      db.session.commit()
+      email = form.email.data
+
+      mail_message("Thank you customer","email/order_received",email,new_order=new_order)
         
-    return render_template("cart.html", order_form = form,)
+  title = 'Orders'
 
-=======
-    title = 'pizza'
+  return render_template("cart.html", order_form = form, title=title)
 
-    return render_template("index.html")
+
+
+# @main.route("/cart/order/checkout", methods=["POST","GET"])
+# def new_checkout():
+#   form = CheckoutForm()
+
+#   if form.validate_on_submit():
+#     email= form.email.data
+
+#     query_obj = session.query(Order)
+#     desc_expression = sqlalchemy.sql.expression.desc(Order.id)
+#     order_from_query = query_obj.order_by(desc_expression).limit(1)
+#     new_checkout = Checkout(orders_id = order_from_query.id, email = email,total_amount=order_from_query.price)
+#     db.session.add(new_checkout)
+#     db.session.commit()
+
+  title='Checkout'
+
+  return render_template("checkout.html", checkout_form=form, title=title)
 
 @main.route('/add')
 def add():
     title = 'pizza details'
 
-    return render_template("pizza_details.html")
+    return render_template("pizza_details.html", title = title)
 
 
 @main.route('/add/flavour', methods=["GET", "POST"])
@@ -81,4 +96,3 @@ def newTopping():
         db.session.commit()
         
     return render_template('add_topping.html', topping_form=topping_form)
->>>>>>> 0a3637f44cd3c63c5e6ae94705cf6176f2f184ff

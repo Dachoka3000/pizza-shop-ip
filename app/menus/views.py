@@ -21,11 +21,16 @@ def new_order():
         size = form.size.data 
         flavour = form.flavour.data 
         topping = form.toppings.data 
-        price = ((int(size.price))+(int(topping.price))*(int(quantity)))
+        price = ((int(size.price))+(int(topping.price)))*(int(quantity))
+        email = form.email.data
 
         new_order=Order(flavour=flavour,size=size,topping=topping,quantity=quantity,price=price)
         db.session.add(new_order)
         db.session.commit()
+
+        new_checkout = Checkout()
+
+
 
     title = "Orders"
         
