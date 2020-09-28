@@ -38,23 +38,13 @@ def new_order():
 
 
 
-# @main.route("/cart/order/checkout", methods=["POST","GET"])
-# def new_checkout():
-#   form = CheckoutForm()
+@main.route("/cart/order/checkout")
+def new_checkout():
 
-#   if form.validate_on_submit():
-#     email= form.email.data
-
-#     query_obj = session.query(Order)
-#     desc_expression = sqlalchemy.sql.expression.desc(Order.id)
-#     order_from_query = query_obj.order_by(desc_expression).limit(1)
-#     new_checkout = Checkout(orders_id = order_from_query.id, email = email,total_amount=order_from_query.price)
-#     db.session.add(new_checkout)
-#     db.session.commit()
 
   title='Checkout'
 
-  return render_template("checkout.html", checkout_form=form, title=title)
+  return render_template("checkout.html", title=title)
 
 @main.route('/add')
 def add():
@@ -85,6 +75,8 @@ def newSize():
         db.session.commit()
 
     return render_template('add_size.html', size_form=size_form)
+
+
           
 @main.route('/add/topping', methods=["GET", "POST"])
 def newTopping():
