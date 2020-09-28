@@ -31,6 +31,9 @@ def new_order():
       email = form.email.data
 
       mail_message("Thank you customer","email/order_received",email,new_order=new_order)
+      flash("Your order has been recorded")
+  else:
+      flash("Sorry, I really didn't get that")
         
   title = 'Orders'
 
