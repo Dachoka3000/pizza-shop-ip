@@ -32,8 +32,6 @@ def new_order():
 
       mail_message("Thank you customer","email/order_received",email,new_order=new_order)
       flash("Your order has been recorded")
-  else:
-      flash("Sorry, I really didn't get that")
         
   title = 'Orders'
 
@@ -48,6 +46,12 @@ def new_checkout():
   title='Checkout'
 
   return render_template("checkout.html", title=title)
+
+@main.route("/contacts")
+def contacts():
+    title ="Contact Us"
+
+    return render_template("contacts.html", title=title)
 
 @main.route('/add')
 def add():

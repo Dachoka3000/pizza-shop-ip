@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/cart.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700i" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" style="background-color: aquamarine; background-image: url('../static/image/pizz.jpg');background-size: cover;background-attachment: fixed;">
         <div class="row">
             <div class="col-md-8">
                 {% with messages = get_flashed_messages() %}
