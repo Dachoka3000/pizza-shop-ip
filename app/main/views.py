@@ -1,21 +1,59 @@
-from flask import render_template, redirect, url_for
-from . import main
-from .forms import FlavourForm, SizeForm, ToppingForm
-from .. import db
-from ..models import Flavour, Size, Topping
 
+from flask import render_template, flash, session,request, redirect, url_for
+from . import main
+from .forms import OrderForm
+from ..models import Order, Checkout, Flavour, Topping, Size
+from .. import db
+from .forms import FlavourForm, SizeForm, ToppingForm
+from ..email import mail_message
+# from sqlalchemy import desc
 
 @main.route('/')
 def index():
-    title = 'pizza'
+  title = 'pizza'
+  
+  return render_template("index.html", title=title)
 
-    return render_template("index.html")
+@main.route("/cart/order", methods=["POST","GET"])
+def new_order():
+  form = OrderForm()
+
+  if form.validate_on_submit():
+      quantity = form.quantity.data 
+      size = form.size.data 
+      flavour = form.flavour.data 
+      topping = form.toppings.data 
+      price = ((int(size.price))+(int(topping.price)))*(int(quantity))
+      new_order=Order(flavour=flavour,size=size,topping=topping,quantity=quantity,price=price)
+
+      db.session.add(new_order)
+      db.session.commit()
+      email = form.email.data
+
+      mail_message("Thank you customer","email/order_received",email,new_order=new_order)
+      flash("Your order has been recorded")
+  else:
+      flash("Sorry, I really didn't get that")
+        
+  title = 'Orders'
+
+  return render_template("cart.html", order_form = form, title=title)
+
+
+
+@main.route("/cart/order/checkout")
+def new_checkout():
+
+
+  title='Checkout'
+
+  return render_template("checkout.html", title=title)
 
 @main.route('/add')
 def add():
     title = 'pizza details'
 
-    return render_template("pizza_details.html")
+    return render_template("pizza_details.html", title = title)
 
 
 @main.route('/add/flavour', methods=["GET", "POST"])
@@ -40,6 +78,8 @@ def newSize():
         db.session.commit()
 
     return render_template('add_size.html', size_form=size_form)
+
+
           
 @main.route('/add/topping', methods=["GET", "POST"])
 def newTopping():
